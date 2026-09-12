@@ -39,6 +39,8 @@ Claude Code는 구현과 검증을, Codex는 작업 설계·검토·학습 문�
 
 이 연결은 지침을 공유하는 설정입니다. Codex의 Claude 자동 호출이나 질문 전달 기능을 설치하지는 않습니다. 현재는 작업 전달자가 지시와 결정을 전달하고, 구현 결과는 Git diff와 간단한 검증 보고로 확인합니다.
 
+Codex가 Claude에게 구현을 위임할 때는 Claude가 직접 git을 다루지 않고, Codex가 결과를 검토한 뒤 커밋합니다. 위임 대상이 아닌 변경과 섞이지 않도록 작업트리를 확인·격리하는 절차는 [AGENTS.md](AGENTS.md)의 "Claude 위임 작업 격리"에서 관리합니다.
+
 참고: [Claude Code 지침 공식 문서](https://code.claude.com/docs/en/memory)
 
 사용자 권한은 [권한 설정 안내](docs/claude-permissions.md)와 [권한 템플릿](config/claude-permissions.json)에서 관리합니다. 이 템플릿은 기존 `~/.claude/settings.json`에 병합하며, 심볼릭 링크로 전체 설정을 대체하지 않습니다.
