@@ -27,6 +27,6 @@ Python 전체 실행, 패키지 설치, 파일 편집, 모든 테스트 명령�
 
 Claude Code의 새 세션에서 `/permissions`를 열어 사용자 범위의 규칙을 확인한다. `git status --short`와 공통 Python의 `-m pip check`로 조회·검증 동작을 확인할 수 있다. 승인을 시험하려고 실제 커밋이나 푸시를 실행할 필요는 없다.
 
-Codex가 Claude를 비대화형으로 호출할 때에는 승인 요청을 직접 처리할 수 없는 경우 호출이 거부될 수 있다. 이때 필요한 명령과 실패 이유를 Codex에 반환하고, 자동으로 권한 범위를 넓히지 않는다.
+Codex가 Claude를 비대화형으로 호출할 때에는 승인 요청을 직접 처리할 수 없는 경우 호출이 거부될 수 있다. `git add`·`commit`·`push`는 CLAUDE.md에 따라 Codex가 위임한 작업에서 Claude가 애초에 호출하지 않는 명령이므로, 이 `ask` 규칙은 자동화를 막는 제약이 아니라 실수로 호출하는 경우를 막는 안전장치로 유지한다. 그 밖의 명령에서 승인 요청이 거부되면 필요한 명령과 실패 이유를 Codex에 반환하고, 자동으로 권한 범위를 넓히지 않는다.
 
 공식 근거: [Claude Code 권한 설정](https://code.claude.com/docs/en/permissions)
