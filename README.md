@@ -35,6 +35,8 @@ ln -s ~/projects/codex-guidelines/CLAUDE.md ~/.claude/CLAUDE.md
 
 참고: [Claude Code 지침 공식 문서](https://code.claude.com/docs/en/memory)
 
+사용자 권한은 [권한 설정 안내](docs/claude-permissions.md)와 [권한 템플릿](config/claude-permissions.json)에서 관리합니다. 이 템플릿은 기존 `~/.claude/settings.json`에 병합하며, 심볼릭 링크로 전체 설정을 대체하지 않습니다.
+
 ## 관리
 
 공통 지침은 이 저장소에서 수정하고 커밋·푸시합니다. 다른 컴퓨터에서는 이 저장소를 복제하고 위 연결을 한 번 설정한 뒤, 변경 사항을 pull하여 반영합니다.
