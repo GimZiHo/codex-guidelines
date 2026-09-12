@@ -5,31 +5,37 @@
 - [AGENTS.md](AGENTS.md): Codex의 학습 중심 작업 관리 원칙
 - [CLAUDE.md](CLAUDE.md): Claude Code의 구현·검증·의사결정 요청 규칙
 - [공통 도구 환경](docs/tool-environment.md): PDF 도구의 재사용 경로, 설치 목록과 복구 방법
+- [scripts/setup.sh](scripts/setup.sh): 전역 지침 연결과 권한 템플릿 병합을 자동화하는 스크립트
 - 각 프로젝트의 `AGENTS.md`: 해당 프로젝트만의 작업 규칙으로, 이 저장소와 독립적으로 관리
 
 ## 설치
 
-이 저장소를 `~/projects/codex-guidelines`에 복제한 후 기본 Codex 홈에 연결합니다.
+이 저장소를 `~/projects/codex-guidelines`에 복제한 후 아래 스크립트로 전역 연결과 권한 병합을 한 번에 처리합니다.
 
 ```bash
-mkdir -p ~/.codex
-ln -s ~/projects/codex-guidelines/AGENTS.md ~/.codex/AGENTS.md
+~/projects/codex-guidelines/scripts/setup.sh
 ```
 
-기존 `~/.codex/AGENTS.md`가 있다면 내용을 먼저 비교·병합하고 보존한 후 연결합니다. 위 명령은 기존 파일을 덮어쓰지 않습니다. `CODEX_HOME`을 별도로 사용하는 환경에서는 해당 디렉터리에 연결합니다. `AGENTS.override.md`가 있으면 전역 AGENTS.md보다 우선하므로 함께 확인합니다.
+이 스크립트는 다음을 수행합니다.
 
-연결 후 새 Codex 세션에서 적용된 지침을 확인합니다. 프로젝트의 AGENTS.md를 이 파일에 연결할 필요는 없습니다.
+- `~/.codex/AGENTS.md`, `~/.claude/CLAUDE.md`를 이 저장소의 파일에 연결합니다. 대상 경로에 파일이 이미 있거나 다른 곳을 가리키는 심볼릭 링크가 있으면 덮어쓰지 않고 건너뛰며, 직접 비교·병합하도록 안내만 출력합니다.
+- [권한 템플릿](config/claude-permissions.json)의 규칙을 `~/.claude/settings.json`에 병합합니다. 기존 설정 항목과 이미 있는 규칙은 그대로 두고, 템플릿에만 있는 규칙만 추가합니다. 실제로 변경할 내용이 있을 때만 원본을 `settings.json.bak.<시각>`으로 백업한 뒤 씁니다.
+
+`CODEX_HOME`, `CLAUDE_CONFIG_DIR` 환경변수로 기본 경로(`~/.codex`, `~/.claude`)를 다른 컴퓨터의 실제 경로에 맞게 조정할 수 있습니다. `AGENTS.override.md`가 있으면 전역 AGENTS.md보다 우선하므로 별도로 확인합니다.
+
+수동으로 연결하려면 아래처럼 각 파일을 개별 `ln -s`로 연결할 수도 있습니다.
+
+```bash
+mkdir -p ~/.codex ~/.claude
+ln -s ~/projects/codex-guidelines/AGENTS.md ~/.codex/AGENTS.md
+ln -s ~/projects/codex-guidelines/CLAUDE.md ~/.claude/CLAUDE.md
+```
+
+연결 후 새 Codex 세션과 Claude Code 세션(`/context`)에서 적용된 지침을 확인합니다. 프로젝트의 AGENTS.md를 이 파일에 연결할 필요는 없습니다.
 
 ## Claude Code 연결
 
 Claude Code는 구현과 검증을, Codex는 작업 설계·검토·학습 문서 관리를 담당합니다. 두 전역 지침은 각각 관리하며 전체 내용을 서로 가져오지 않습니다.
-
-```bash
-mkdir -p ~/.claude
-ln -s ~/projects/codex-guidelines/CLAUDE.md ~/.claude/CLAUDE.md
-```
-
-기존 파일이나 링크가 있으면 먼저 확인하고 보존합니다. 위 명령은 기존 파일을 덮어쓰지 않습니다. 연결 후 Claude Code의 새 세션에서 `/context`로 지침 로딩을 확인합니다. `CLAUDE_CONFIG_DIR`을 별도로 설정했다면 해당 설정 디렉터리에 연결합니다.
 
 이 연결은 지침을 공유하는 설정입니다. Codex의 Claude 자동 호출이나 질문 전달 기능을 설치하지는 않습니다. 현재는 작업 전달자가 지시와 결정을 전달하고, 구현 결과는 Git diff와 간단한 검증 보고로 확인합니다.
 
